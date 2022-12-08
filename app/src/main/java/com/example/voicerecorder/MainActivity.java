@@ -19,7 +19,8 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity {
     private static int MICRROPHONE_PERMISSION_CODE = 200;
     MediaRecorder mediaRecorder;
-
+    MediaPlayer mediaPlayer;
+    //11 min 45 sec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +52,34 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    public void btnStopPressed(View v){
 
-    public void btnpresedstop(View v){
+        mediaRecorder.stop();
+        mediaRecorder.release();
+        mediaRecorder = null;
+        Toast.makeText(this,"Recording is Stopped",Toast.LENGTH_LONG).show();
 
     }
-    public void btnpresedplay(View v){
+
+    public void btnPlayPressed(View v){
+
+       try {
+           mediaPlayer = new MediaPlayer();
+           mediaPlayer.setDataSource(getRecordingFilePath());
+           mediaPlayer.prepare();
+           mediaPlayer.start();
+           Toast.makeText(this,"Recording is playing",Toast.LENGTH_LONG).show();
+
+       }
+       catch (Exception e){
+           e.printStackTrace();
+
+       }
+
+
 
     }
+
     private boolean isMicrophonePresent() {
         if (this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE)) {
             return true;
